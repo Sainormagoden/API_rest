@@ -1,13 +1,10 @@
 <?php
 
 require_once "Autoloader.php";
+header('Content-Type: application/json;charset=utf-8');
 
-if (isset($_GET['id'])){
-    $id = $_GET['id'];
+$router = new Router($_GET['url']);
+$router->get('/', function(){ echo json_encode("Bienvenue sur mon API!"); });
+$router->get('/user/:id', "User#userById")->with('id', '[0-9]+');
+$router->run();
 
-}
-
-foreach (SPDO::getInstance()->query('SELECT id, lastname, firstname, email, role FROM user WHERE id='.$id) as $user)
-{
-    echo '<pre>', print_r($user) ,'</pre>';
-}
