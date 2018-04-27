@@ -6,14 +6,7 @@ class UserController
 
     public function userById($id){
 
-        $result = Modele::recupUser($id);
-
-        if($result){
-            echo json_encode($result);
-        }
-        else{
-            echo json_encode("Erreur : L'id ne correspond a aucun user!");
-        }
+        echo json_encode((false == $result = Modele::recupUser($id))? "Erreur : L'id ne correspond a aucun user!" : $result);
     }
 
 }
