@@ -2,13 +2,6 @@
 
 class SPDO
 {
-    /**
-     * Instance de la classe PDO
-     *
-     * @var PDO
-     * @access private
-     */
-    private $PDOInstance = null;
 
     /**
      * Instance de la classe SPDO
@@ -24,28 +17,28 @@ class SPDO
      *
      * @var string
      */
-    const DEFAULT_SQL_USER = 'root';
+    private const DEFAULT_SQL_USER = 'root';
 
     /**
      * Constante: hôte de la bdd
      *
      * @var string
      */
-    const DEFAULT_SQL_HOST = 'localhost';
+    private const DEFAULT_SQL_HOST = 'localhost';
 
     /**
      * Constante: hôte de la bdd
      *
      * @var string
      */
-    const DEFAULT_SQL_PASS = 'azerty';
+    private const DEFAULT_SQL_PASS = 'azerty';
 
     /**
      * Constante: nom de la bdd
      *
      * @var string
      */
-    const DEFAULT_SQL_DTB = 'api_rest';
+    private const DEFAULT_SQL_DTB = 'api_rest';
 
     /**
      * Constructeur
@@ -57,7 +50,8 @@ class SPDO
      */
     private function __construct()
     {
-        $this->PDOInstance = new PDO('mysql:dbname='.self::DEFAULT_SQL_DTB.';host='.self::DEFAULT_SQL_HOST,self::DEFAULT_SQL_USER ,self::DEFAULT_SQL_PASS);
+        self::$instance = new PDO('mysql:dbname='.self::DEFAULT_SQL_DTB.';host='.self::DEFAULT_SQL_HOST,
+            self::DEFAULT_SQL_USER ,self::DEFAULT_SQL_PASS);
     }
 
     /**
@@ -72,7 +66,7 @@ class SPDO
     {
         if(is_null(self::$instance))
         {
-            self::$instance = new SPDO();
+            new SPDO();
         }
         return self::$instance;
     }
@@ -85,6 +79,6 @@ class SPDO
      */
     public function query($query)
     {
-        return $this->PDOInstance->query($query);
+        return self::$instance->query($query);
     }
 }
